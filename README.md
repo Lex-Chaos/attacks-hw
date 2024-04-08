@@ -1,26 +1,19 @@
-# Домашняя работа к занятию «Disasters recovery и Keepalived» - Боровик А. А.
+# Домашняя работа к занятию «Уязвимости и атаки на информационные системы» - Боровик А. А.
 
 ### Задание 1
 
 Ответ:
 
-Настройка роутера 1
+Разрешены следующие сетевые службы:
 
-![Настройка роутера 1](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Настройка_для_роутера_1.png)
+![Разрешённые службы](https://github.com/Lex-Chaos/attacks-hw/blob/main/img/Task1_Services.png)
 
-Результат настройки роутера 1
+Обнаружены следующие уязвимости:
 
-![Результат настройки роутера 1](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Результат_настройки_для_роутера_1.png)
-
-Настройка роутера 2
-
-![Настройка роутера 2](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Настройка_для_роутера_2.png)
-
-Результат настройки роутера 2
-
-![Результат настройки роутера 2](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Результат_настройки_для_роутера_2.png)
-
-[Ссылка на файл для CPT](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/files/hsrp_advanced_ready.pkt)
+1. vsftpd 2.3.4 - Backdoor Command Execution - [vsftpd 2.3.4 - Backdoor Command Execution - Unix remote Exploit](https://www.exploit-db.com/exploits/49757)
+2.  PostgreSQL 8.2/8.3/8.4 - UDF for Command Execution - [PostgreSQL 8.2/8.3/8.4 - UDF for Command Execution - Linux local Exploit](https://www.exploit-db.com/exploits/7855)
+3.  ISC BIND 9 - Denial of Service - [ISC BIND 9 - Denial of Service - Multiple dos Exploit](https://www.exploit-db.com/exploits/40453)
+4. Samba 3.5.0 - Remote Code Execution - [ISC BIND 9 - Denial of Service - Multiple dos Exploit](https://www.exploit-db.com/exploits/40453)
 
 ---
 
@@ -28,39 +21,24 @@
 
 Ответ:
 
-Скрипт проверки сервера Nginx:
-[Ссылка на файл скрипта](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/files/check_nginx.sh)
+С точки зрения сетевого трафика отличаются протоколами (TCP/UDP) и флагами посылки запроса и ответа.
 
-Конфигурационный файл keepalived:
-[Ссылка на конфигурационный файл](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/files/keepalived.conf)
+Сервер на разные типы сканирования отвечает различными обратными посылками в зависимости от того, закрыт или открыт порт.
 
-Сервер работает без сбоев:
-![Работа без сбоев](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task2_Normal_working.png)
+SYN сканирование: Сканер посылает запросы SYN на порты санируемого, сканируемый отвечает открытым портом \[SYN, AKC\], закрытым портом \[RST, ACK\]
 
-Отсутствует файл index.html:
-![Отсутствует файл](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task2_Delete_index.png)
+FIN сканирование: Сканер отправляет запросы FIN на порты сканируемого, сканируемый отвечает закрытым портом \[RST, ACK\], открытым не отвечает.
 
-Закрыт порт:
-![Работа без сбоев](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task2_Close_port.png)
+Xmas сканирование: Сканер отправляет запросы \[FIN, PSH, URG\] на порты сканируемого, сканируемый отвечает закрытым портом \[RST, ACK\], открытым не отвечает.
 
----
+UDP сканирование: Сканер отправляет UDP пакеты на порты сканируемого, сканируемый отвечает ICMP сообщением об ошибке если порт открыт, если порт закрыт — не отвечает.
 
-### Задание 3*
+Ссылки на файлы записи сеансов сканирования:
 
-Ответ:
+[SYN](https://github.com/Lex-Chaos/attacks-hw/blob/main/files/SYN.pcapng)
 
-Скрипт для определения коэффициента:
-[Ссылка на файл скрипта](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/files/Task3_balance_load.sh)
+[FIN](https://github.com/Lex-Chaos/attacks-hw/blob/main/files/FIN.pcapng)
 
-Конфигурационный файл keepalived:
-[Ссылка на конфигурационный файл](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/files/Task3_keepalived.conf)
+[Xmas](https://github.com/Lex-Chaos/attacks-hw/blob/main/files/Xmas.pcapng)
 
-Файлы для серверов отличаются только состоянием MASTER - BACKUP и приоритетом.
-Лог сервера 1:
-![Лог сервера 1](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task3_server1.png)
-
-Лог сервера 2:
-![Лог сервера 1](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task3_server2.png)
-
-Лог сервера 3:
-![Лог сервера 1](https://github.com/Lex-Chaos/disasters_recovery_and_keepalived-hw/blob/main/img/Task3_server3.png)
+[UDP](https://github.com/Lex-Chaos/attacks-hw/blob/main/files/UDP.pcapng)
